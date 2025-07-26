@@ -358,25 +358,35 @@ function isInViewport(el) {
 	);
 }
 
-// Sequential loading queue for images/videos
+// Sequential loading queue for images/videos with priority levels
 let mediaQueue = [];
 let queuePaused = false;
 let currentLoading = null;
+let currentPriority = 1;
 
-// Collect all images/videos in DOM order
-function collectMediaQueue() {
+// Collect all images/videos in DOM order by priority
+function collectMediaQueue(priorityLevel = 1) {
 	mediaQueue = [];
-	const imgs = Array.from(document.querySelectorAll('img[loading="medium"], img[loading="last"], img[loading="lazy"]'));
-	const vids = Array.from(document.querySelectorAll('video[loading="medium"], video[loading="last"], video[loading="lazy"]'));
-	// Sort by DOM order (top to bottom)
+	const selector = `[loading="${priorityLevel}"]`;
+	const imgs = Array.from(document.querySelectorAll('img' + selector));
+	const vids = Array.from(document.querySelectorAll('video' + selector));
 	const allMedia = imgs.concat(vids);
 	allMedia.sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
 	mediaQueue = allMedia.filter(m => !m.hasAttribute('data-prioritized') && !m.hasAttribute('data-loaded'));
 }
 
-// Load next media in queue
+// Load next media in queue, advance priority when done
 function loadNextInQueue() {
-	if (queuePaused || mediaQueue.length === 0) return;
+	if (queuePaused) return;
+	if (mediaQueue.length === 0) {
+		// Advance to next priority level if available
+		if (currentPriority < 3) {
+			currentPriority++;
+			collectMediaQueue(currentPriority);
+			loadNextInQueue();
+		}
+		return;
+	}
 	const media = mediaQueue.shift();
 	if (!media) return;
 	currentLoading = media;
@@ -384,7 +394,6 @@ function loadNextInQueue() {
 		media.src = media.getAttribute('data-src') || media.getAttribute('src');
 	}
 	media.setAttribute('data-loaded', 'true');
-	// Listen for load/ready event, then load next
 	const onLoaded = () => {
 		currentLoading = null;
 		media.removeEventListener('load', onLoaded);
@@ -408,11 +417,11 @@ function loadNextInQueue() {
 	}
 }
 
-// Pause queue and expedite a specific media
+// Expedite a specific media (treat as eager)
 function expediteMedia(media) {
 	queuePaused = true;
 	if (currentLoading && currentLoading !== media) {
-		// Optionally abort current loading if possible (not always possible for images)
+		// Optionally abort current loading if possible
 	}
 	if (!media.src) {
 		media.src = media.getAttribute('data-src') || media.getAttribute('src');
@@ -423,7 +432,7 @@ function expediteMedia(media) {
 		queuePaused = false;
 		media.removeEventListener('load', onLoaded);
 		media.removeEventListener('loadeddata', onLoaded);
-		collectMediaQueue();
+		collectMediaQueue(currentPriority);
 		loadNextInQueue();
 	};
 	if (media.tagName === 'IMG') {
@@ -447,7 +456,7 @@ function expediteMedia(media) {
 function checkAndExpediteMedia() {
 	const allMedia = document.querySelectorAll('img[loading], video[loading]');
 	for (const media of allMedia) {
-		if (!media.hasAttribute('data-loaded') && (isInViewport(media) || media === currentLoading)) {
+		if (!media.hasAttribute('data-loaded') && isInViewport(media)) {
 			expediteMedia(media);
 			break; // Only expedite one at a time
 		}
@@ -468,7 +477,8 @@ function attachExpediteListeners() {
 
 // Initial setup
 document.addEventListener('DOMContentLoaded', function() {
-	collectMediaQueue();
+	currentPriority = 1;
+	collectMediaQueue(currentPriority);
 	attachExpediteListeners();
 	loadNextInQueue();
 });
