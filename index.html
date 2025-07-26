@@ -6,9 +6,9 @@
 	<meta charset="UTF-8">
 	<title>Ekstatisk</title>
 	<!-- Preload fonts for faster rendering -->
-	<link rel="preload" href="LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin>
+	 <link rel="preload" href="fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
 	<script src="https://unpkg.com/feather-icons"></script>
 	<link rel="stylesheet" href="styles.css" />
 </head>
@@ -75,37 +75,37 @@
 
 				<div class="stack">
 					<div class="slide horz" id="1">
-						<img src="assets/chair_01.jpg">
+						<img src="assets/chair_01.jpg"loading="eager">
 					</div>
 					<div class="slide horz" id="2">
-						<img src="assets/chair_02.jpg">
+						<img src="assets/chair_02.jpg"loading="eager">
 					</div>
 					<div class="slide horz" id="3">
-						<img src="assets/chair_03.jpg">
+						<img src="assets/chair_03.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="4">
-						<img src="assets/chair_04.jpg">
+						<img src="assets/chair_04.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="5">
-						<img src="assets/chair_05.jpg">
+						<img src="assets/chair_05.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="6">
-						<img src="assets/chair_06.jpg">
+						<img src="assets/chair_06.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="7">
-						<img src="assets/chair_07.jpg">
+						<img src="assets/chair_07.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="8">
-						<img src="assets/chair_08.jpg">
+						<img src="assets/chair_08.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="9">
-						<img src="assets/chair_09.jpg">
+						<img src="assets/chair_09.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="10">
-						<img src="assets/chair_095.jpg">
+						<img src="assets/chair_095.jpg"loading="lazy">
 					</div>
 					<div class="slide horz" id="11">
-						<img src="assets/chair_10.jpg">
+						<img src="assets/chair_10.jpg"loading="lazy">
 					</div>
 
 					<a href="https://drive.google.com/file/d/1mc0773159oPjGQ9Tib_44k_OwQk0LGoI/view?usp=sharing" target="_blank" class="custom-link">
@@ -255,14 +255,11 @@
 				</div>
 
 				<div class="stack">
-
 					<div class="slide horz" id="1">
-
-						<img src="assets/spin_all.jpg">
+						<img src="assets/spin_all.jpg" loading="eager">
 					</div>
-
 					<div class="slide vert" id="3">
-						<video id="video7-3" poster="assets/spin_load.jpg" src="assets/compress_spun.mp4" autoplay muted playsinline loop></video>
+						<video id="video7-3" poster="assets/spin_load.jpg" src="assets/compress_spun.mp4" autoplay muted playsinline loop loading="lazy"></video>
 					</div>
 
 				</div>

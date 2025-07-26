@@ -1,17 +1,20 @@
 @font-face {
         font-family: 'GR';
-        src: url('LabGrotesque-Regular.woff2') format('woff2');
+        src: url('fonts/LabGrotesque-Regular.woff2') format('woff2');
         font-weight: 400;
+        font-display: block;
     }
     @font-face {
         font-family: 'GR';
-        src: url('LabGrotesque-Light.woff2') format('woff2');
+        src: url('fonts/LabGrotesque-Light.woff2') format('woff2');
         font-weight: 300;
+        font-display: block;
     }
     @font-face {
         font-family: 'GR';
-        src: url('LabGrotesque-bold.woff2') format('woff2');
+        src: url('fonts/LabGrotesque-Bold.woff2') format('woff2');
         font-weight: 700;
+        font-display: block;
     }
 
     body {
