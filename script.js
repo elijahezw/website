@@ -40,25 +40,25 @@
 			}
 
 			function updateChevronInactiveState() {
-  Array.from(slides).forEach(function(slide, idx) {
-    var leftZone = slide.querySelector('.slide-chevron-zone.slide-chevron-left');
-    var rightZone = slide.querySelector('.slide-chevron-zone.slide-chevron-right');
-    if (leftZone) {
-      if (currentSlideIndex === 0 && idx === currentSlideIndex) {
-        leftZone.classList.add('chevron-inactive');
-      } else {
-        leftZone.classList.remove('chevron-inactive');
-      }
-    }
-    if (rightZone) {
-      if (currentSlideIndex === slides.length - 1 && idx === currentSlideIndex) {
-        rightZone.classList.add('chevron-inactive');
-      } else {
-        rightZone.classList.remove('chevron-inactive');
-      }
-    }
-  });
-}
+			Array.from(slides).forEach(function(slide, idx) {
+				var leftZone = slide.querySelector('.slide-chevron-zone.slide-chevron-left');
+				var rightZone = slide.querySelector('.slide-chevron-zone.slide-chevron-right');
+				if (leftZone) {
+				if (currentSlideIndex === 0 && idx === currentSlideIndex) {
+					leftZone.classList.add('chevron-inactive-left');
+				} else {
+					leftZone.classList.remove('chevron-inactive');
+				}
+				}
+				if (rightZone) {
+				if (currentSlideIndex === slides.length - 1 && idx === currentSlideIndex) {
+					rightZone.classList.add('chevron-inactive-right');
+				} else {
+					rightZone.classList.remove('chevron-inactive');
+				}
+				}
+			});
+			}
 			
 			function updateArrowAndNav() {
 				// Hide the backward arrow if on the first slide
