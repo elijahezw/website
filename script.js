@@ -486,13 +486,3 @@ document.addEventListener('DOMContentLoaded', function() {
 // On scroll/resize, check for media in view to expedite
 window.addEventListener('scroll', checkAndExpediteMedia, { passive: true });
 window.addEventListener('resize', checkAndExpediteMedia);
-
-// Prevent default for single-finger touch, allow pinch
-  function handleTouch(e) {
-    if (e.touches.length === 1) {
-      e.preventDefault();
-    }
-    // else: allow pinch (multi-finger)
-  }
-  document.addEventListener('touchstart', handleTouch, { passive: false });
-  document.addEventListener('touchend', handleTouch, { passive: false });

@@ -126,10 +126,9 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
-        width: 20vw;
         min-width: 250px;
         margin-right: 2vw;
+       
     }
 
     .page {
@@ -140,6 +139,7 @@
         color: #9B9B9B;
         justify-content: center;
         height: 120px;
+        max-width: 300px;
         
     }
 
