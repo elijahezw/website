@@ -358,121 +358,122 @@ function isInViewport(el) {
 	);
 }
 
-// Prioritize loading for images/videos in viewport
-function prioritizeViewportMedia() {
-	const allImgs = document.querySelectorAll('img[loading="medium"], img[loading="last"], img[loading="lazy"]');
-	const allVids = document.querySelectorAll('video[loading="medium"], video[loading="last"], video[loading="lazy"]');
-	allImgs.forEach(function(img) {
-		if (isInViewport(img) && !img.src) {
-			img.src = img.getAttribute('data-src') || img.getAttribute('src');
-			// Mark as eager so it doesn't get loaded again in deferred logic
-			img.setAttribute('data-prioritized', 'true');
+// Sequential loading queue for images/videos
+let mediaQueue = [];
+let queuePaused = false;
+let currentLoading = null;
+
+// Collect all images/videos in DOM order
+function collectMediaQueue() {
+	mediaQueue = [];
+	const imgs = Array.from(document.querySelectorAll('img[loading="medium"], img[loading="last"], img[loading="lazy"]'));
+	const vids = Array.from(document.querySelectorAll('video[loading="medium"], video[loading="last"], video[loading="lazy"]'));
+	// Sort by DOM order (top to bottom)
+	const allMedia = imgs.concat(vids);
+	allMedia.sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+	mediaQueue = allMedia.filter(m => !m.hasAttribute('data-prioritized') && !m.hasAttribute('data-loaded'));
+}
+
+// Load next media in queue
+function loadNextInQueue() {
+	if (queuePaused || mediaQueue.length === 0) return;
+	const media = mediaQueue.shift();
+	if (!media) return;
+	currentLoading = media;
+	if (!media.src) {
+		media.src = media.getAttribute('data-src') || media.getAttribute('src');
+	}
+	media.setAttribute('data-loaded', 'true');
+	// Listen for load/ready event, then load next
+	const onLoaded = () => {
+		currentLoading = null;
+		media.removeEventListener('load', onLoaded);
+		media.removeEventListener('loadeddata', onLoaded);
+		loadNextInQueue();
+	};
+	if (media.tagName === 'IMG') {
+		if (media.complete) {
+			onLoaded();
+		} else {
+			media.addEventListener('load', onLoaded);
+			media.addEventListener('error', onLoaded);
 		}
-	});
-	allVids.forEach(function(video) {
-		if (isInViewport(video) && !video.src) {
-			video.src = video.getAttribute('data-src') || video.getAttribute('src');
-			video.setAttribute('data-prioritized', 'true');
+	} else if (media.tagName === 'VIDEO') {
+		if (media.readyState > 0) {
+			onLoaded();
+		} else {
+			media.addEventListener('loadeddata', onLoaded);
+			media.addEventListener('error', onLoaded);
 		}
+	}
+}
+
+// Pause queue and expedite a specific media
+function expediteMedia(media) {
+	queuePaused = true;
+	if (currentLoading && currentLoading !== media) {
+		// Optionally abort current loading if possible (not always possible for images)
+	}
+	if (!media.src) {
+		media.src = media.getAttribute('data-src') || media.getAttribute('src');
+	}
+	media.setAttribute('data-prioritized', 'true');
+	media.setAttribute('data-loaded', 'true');
+	const onLoaded = () => {
+		queuePaused = false;
+		media.removeEventListener('load', onLoaded);
+		media.removeEventListener('loadeddata', onLoaded);
+		collectMediaQueue();
+		loadNextInQueue();
+	};
+	if (media.tagName === 'IMG') {
+		if (media.complete) {
+			onLoaded();
+		} else {
+			media.addEventListener('load', onLoaded);
+			media.addEventListener('error', onLoaded);
+		}
+	} else if (media.tagName === 'VIDEO') {
+		if (media.readyState > 0) {
+			onLoaded();
+		} else {
+			media.addEventListener('loadeddata', onLoaded);
+			media.addEventListener('error', onLoaded);
+		}
+	}
+}
+
+// On scroll or click, expedite media in view or interacted with
+function checkAndExpediteMedia() {
+	const allMedia = document.querySelectorAll('img[loading], video[loading]');
+	for (const media of allMedia) {
+		if (!media.hasAttribute('data-loaded') && (isInViewport(media) || media === currentLoading)) {
+			expediteMedia(media);
+			break; // Only expedite one at a time
+		}
+	}
+}
+
+// Attach click listeners to images/videos for prioritization
+function attachExpediteListeners() {
+	const allMedia = document.querySelectorAll('img[loading], video[loading]');
+	allMedia.forEach(media => {
+		media.addEventListener('click', function() {
+			if (!media.hasAttribute('data-loaded')) {
+				expediteMedia(media);
+			}
+		});
 	});
 }
 
-// Run prioritization on DOMContentLoaded and on scroll/resize
-document.addEventListener('DOMContentLoaded', prioritizeViewportMedia);
-window.addEventListener('scroll', prioritizeViewportMedia, { passive: true });
-window.addEventListener('resize', prioritizeViewportMedia);
-
-// Three-tiered loading system: eager (native), medium, last, lazy
+// Initial setup
 document.addEventListener('DOMContentLoaded', function() {
-	// Medium
-	const mediumImgs = Array.from(document.querySelectorAll('img[loading="medium"]'));
-	const mediumVids = Array.from(document.querySelectorAll('video[loading="medium"]'));
-	let mediumsToLoad = mediumImgs.filter(img => !img.hasAttribute('data-prioritized')).length +
-		mediumVids.filter(video => !video.hasAttribute('data-prioritized')).length;
-	let mediumsLoaded = 0;
-
-	// Last
-	const lastImgs = Array.from(document.querySelectorAll('img[loading="last"]'));
-	const lastVids = Array.from(document.querySelectorAll('video[loading="last"]'));
-	let lastToLoad = lastImgs.filter(img => !img.hasAttribute('data-prioritized')).length +
-		lastVids.filter(video => !video.hasAttribute('data-prioritized')).length;
-	let lastLoaded = 0;
-
-	function checkLastLoaded() {
-		lastLoaded++;
-		if (lastLoaded >= lastToLoad) {
-			// Now load lazy images/videos
-			document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
-				if (!img.src && !img.hasAttribute('data-prioritized')) {
-					img.src = img.getAttribute('data-src') || img.getAttribute('src');
-				}
-			});
-			document.querySelectorAll('video[loading="lazy"]').forEach(function(video) {
-				if (!video.src && !video.hasAttribute('data-prioritized')) {
-					video.src = video.getAttribute('data-src') || video.getAttribute('src');
-				}
-			});
-		}
-	}
-
-	function checkMediumsLoaded() {
-		mediumsLoaded++;
-		if (mediumsLoaded >= mediumsToLoad) {
-			// Now load last images/videos
-			lastImgs.forEach(function(img) {
-				if (!img.src && !img.hasAttribute('data-prioritized')) {
-					img.src = img.getAttribute('data-src') || img.getAttribute('src');
-				}
-				if (img.complete || img.hasAttribute('data-prioritized')) {
-					checkLastLoaded();
-				} else {
-					img.addEventListener('load', checkLastLoaded);
-					img.addEventListener('error', checkLastLoaded);
-				}
-			});
-			lastVids.forEach(function(video) {
-				if (!video.src && !video.hasAttribute('data-prioritized')) {
-					video.src = video.getAttribute('data-src') || video.getAttribute('src');
-				}
-				if (video.readyState > 0 || video.hasAttribute('data-prioritized')) {
-					checkLastLoaded();
-				} else {
-					video.addEventListener('loadeddata', checkLastLoaded);
-					video.addEventListener('error', checkLastLoaded);
-				}
-			});
-			// If there are no last, trigger lazy immediately
-			if (lastToLoad === 0) {
-				checkLastLoaded();
-			}
-		}
-	}
-
-	mediumImgs.forEach(function(img) {
-		if (!img.src && !img.hasAttribute('data-prioritized')) {
-			img.src = img.getAttribute('data-src') || img.getAttribute('src');
-		}
-		if (img.complete || img.hasAttribute('data-prioritized')) {
-			checkMediumsLoaded();
-		} else {
-			img.addEventListener('load', checkMediumsLoaded);
-			img.addEventListener('error', checkMediumsLoaded);
-		}
-	});
-	mediumVids.forEach(function(video) {
-		if (!video.src && !video.hasAttribute('data-prioritized')) {
-			video.src = video.getAttribute('data-src') || video.getAttribute('src');
-		}
-		if (video.readyState > 0 || video.hasAttribute('data-prioritized')) {
-			checkMediumsLoaded();
-		} else {
-			video.addEventListener('loadeddata', checkMediumsLoaded);
-			video.addEventListener('error', checkMediumsLoaded);
-		}
-	});
-	// If there are no mediums, trigger last immediately
-	if (mediumsToLoad === 0) {
-		checkMediumsLoaded();
-	}
+	collectMediaQueue();
+	attachExpediteListeners();
+	loadNextInQueue();
 });
+
+// On scroll/resize, check for media in view to expedite
+window.addEventListener('scroll', checkAndExpediteMedia, { passive: true });
+window.addEventListener('resize', checkAndExpediteMedia);
 

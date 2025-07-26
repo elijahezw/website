@@ -23,9 +23,11 @@
         font-weight: 400;
         color: #000;
         overflow-x: hidden;
-        max-width: 100vw;
         width: 100vw;
+        max-width: 100vw;
         box-sizing: border-box;
+        /* Prevent horizontal rubberbanding on mobile */
+        overscroll-behavior-x: contain;
     }
     .hello {
         display: flex;
@@ -49,6 +51,7 @@
     max-width: 100vw;
     height: 100%;
     box-sizing: border-box;
+    overflow-x: hidden;
     }
 
     .goodbye {
@@ -103,6 +106,7 @@
         max-width: 100vw;
         width: 100vw;
         box-sizing: border-box;
+        overflow-x: hidden;
     }
     .project {
         display: flex;
@@ -357,7 +361,7 @@
  
   max-width: calc((var(--item-width) * var(--max-cols))
                 + (var(--gap) * (var(--max-cols) - 1)));
-
+  overflow-x: hidden;
   /* build as many 300px cols as will fit, up to max-width above */
   column-width: var(--item-width);
   column-gap:   var(--gap);  
@@ -368,6 +372,8 @@
   width:           var(--item-width);
   margin-bottom:   var(--gap);
   break-inside:    avoid;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .masonry-item img,
@@ -386,6 +392,13 @@
 
 
 @media screen and (max-width: 1020px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100vw;
+        max-width: 100vw;
+        box-sizing: border-box;
+        overscroll-behavior-x: contain;
+    }
 .split {
     flex-direction: column;
     align-items: stretch;
@@ -408,6 +421,10 @@
   .content-stream {
     margin-top: 0;
     padding-top: 0;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 .project-filter-nav {
     padding: 0px 0px 0px 8px;
