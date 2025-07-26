@@ -17,6 +17,14 @@
         font-display: block;
     }
 
+    html {
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
+                /* Prevent horizontal rubberbanding on mobile */
+        overscroll-behavior-x: contain;
+
+    }
     body {
         background-color: #fff;
         font-family: GR;
