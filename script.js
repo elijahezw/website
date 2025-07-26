@@ -1,5 +1,4 @@
-
-		feather.replace()
+feather.replace()
 
 
 		function initSlideshow(projectId) {
@@ -347,4 +346,133 @@
 		window.addEventListener('resize', updateActiveFilterOnScroll);
 		// Set on load
 		updateActiveFilterOnScroll();
+
+		// Utility: check if element is in viewport
+function isInViewport(el) {
+	const rect = el.getBoundingClientRect();
+	return (
+		rect.top < window.innerHeight &&
+		rect.bottom > 0 &&
+		rect.left < window.innerWidth &&
+		rect.right > 0
+	);
+}
+
+// Prioritize loading for images/videos in viewport
+function prioritizeViewportMedia() {
+	const allImgs = document.querySelectorAll('img[loading="medium"], img[loading="last"], img[loading="lazy"]');
+	const allVids = document.querySelectorAll('video[loading="medium"], video[loading="last"], video[loading="lazy"]');
+	allImgs.forEach(function(img) {
+		if (isInViewport(img) && !img.src) {
+			img.src = img.getAttribute('data-src') || img.getAttribute('src');
+			// Mark as eager so it doesn't get loaded again in deferred logic
+			img.setAttribute('data-prioritized', 'true');
+		}
+	});
+	allVids.forEach(function(video) {
+		if (isInViewport(video) && !video.src) {
+			video.src = video.getAttribute('data-src') || video.getAttribute('src');
+			video.setAttribute('data-prioritized', 'true');
+		}
+	});
+}
+
+// Run prioritization on DOMContentLoaded and on scroll/resize
+document.addEventListener('DOMContentLoaded', prioritizeViewportMedia);
+window.addEventListener('scroll', prioritizeViewportMedia, { passive: true });
+window.addEventListener('resize', prioritizeViewportMedia);
+
+// Three-tiered loading system: eager (native), medium, last, lazy
+document.addEventListener('DOMContentLoaded', function() {
+	// Medium
+	const mediumImgs = Array.from(document.querySelectorAll('img[loading="medium"]'));
+	const mediumVids = Array.from(document.querySelectorAll('video[loading="medium"]'));
+	let mediumsToLoad = mediumImgs.filter(img => !img.hasAttribute('data-prioritized')).length +
+		mediumVids.filter(video => !video.hasAttribute('data-prioritized')).length;
+	let mediumsLoaded = 0;
+
+	// Last
+	const lastImgs = Array.from(document.querySelectorAll('img[loading="last"]'));
+	const lastVids = Array.from(document.querySelectorAll('video[loading="last"]'));
+	let lastToLoad = lastImgs.filter(img => !img.hasAttribute('data-prioritized')).length +
+		lastVids.filter(video => !video.hasAttribute('data-prioritized')).length;
+	let lastLoaded = 0;
+
+	function checkLastLoaded() {
+		lastLoaded++;
+		if (lastLoaded >= lastToLoad) {
+			// Now load lazy images/videos
+			document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+				if (!img.src && !img.hasAttribute('data-prioritized')) {
+					img.src = img.getAttribute('data-src') || img.getAttribute('src');
+				}
+			});
+			document.querySelectorAll('video[loading="lazy"]').forEach(function(video) {
+				if (!video.src && !video.hasAttribute('data-prioritized')) {
+					video.src = video.getAttribute('data-src') || video.getAttribute('src');
+				}
+			});
+		}
+	}
+
+	function checkMediumsLoaded() {
+		mediumsLoaded++;
+		if (mediumsLoaded >= mediumsToLoad) {
+			// Now load last images/videos
+			lastImgs.forEach(function(img) {
+				if (!img.src && !img.hasAttribute('data-prioritized')) {
+					img.src = img.getAttribute('data-src') || img.getAttribute('src');
+				}
+				if (img.complete || img.hasAttribute('data-prioritized')) {
+					checkLastLoaded();
+				} else {
+					img.addEventListener('load', checkLastLoaded);
+					img.addEventListener('error', checkLastLoaded);
+				}
+			});
+			lastVids.forEach(function(video) {
+				if (!video.src && !video.hasAttribute('data-prioritized')) {
+					video.src = video.getAttribute('data-src') || video.getAttribute('src');
+				}
+				if (video.readyState > 0 || video.hasAttribute('data-prioritized')) {
+					checkLastLoaded();
+				} else {
+					video.addEventListener('loadeddata', checkLastLoaded);
+					video.addEventListener('error', checkLastLoaded);
+				}
+			});
+			// If there are no last, trigger lazy immediately
+			if (lastToLoad === 0) {
+				checkLastLoaded();
+			}
+		}
+	}
+
+	mediumImgs.forEach(function(img) {
+		if (!img.src && !img.hasAttribute('data-prioritized')) {
+			img.src = img.getAttribute('data-src') || img.getAttribute('src');
+		}
+		if (img.complete || img.hasAttribute('data-prioritized')) {
+			checkMediumsLoaded();
+		} else {
+			img.addEventListener('load', checkMediumsLoaded);
+			img.addEventListener('error', checkMediumsLoaded);
+		}
+	});
+	mediumVids.forEach(function(video) {
+		if (!video.src && !video.hasAttribute('data-prioritized')) {
+			video.src = video.getAttribute('data-src') || video.getAttribute('src');
+		}
+		if (video.readyState > 0 || video.hasAttribute('data-prioritized')) {
+			checkMediumsLoaded();
+		} else {
+			video.addEventListener('loadeddata', checkMediumsLoaded);
+			video.addEventListener('error', checkMediumsLoaded);
+		}
+	});
+	// If there are no mediums, trigger last immediately
+	if (mediumsToLoad === 0) {
+		checkMediumsLoaded();
+	}
+});
 
