@@ -17,17 +17,18 @@
         font-display: block;
     }
 
-    html, body {
+    body {
         background-color: #fff;
         font-family: GR;
         font-weight: 400;
         color: #000;
         overflow-x: hidden;
-        width: 100vw;
         max-width: 100vw;
+        width: 100vw;
         box-sizing: border-box;
-        /* Prevent horizontal rubberbanding on mobile */
+                /* Prevent horizontal rubberbanding on mobile */
         overscroll-behavior-x: contain;
+
     }
     .hello {
         display: flex;
@@ -51,7 +52,6 @@
     max-width: 100vw;
     height: 100%;
     box-sizing: border-box;
-    overflow-x: hidden;
     }
 
     .goodbye {
@@ -106,7 +106,6 @@
         max-width: 100vw;
         width: 100vw;
         box-sizing: border-box;
-        overflow-x: hidden;
     }
     .project {
         display: flex;
@@ -351,7 +350,7 @@
         padding: 6px 10px 4px 0;
         stroke-width: 1.5px;
     }
-    tx {
+    tx{
         height: 20px;
         padding: 8px 0 6px 0;
     }
@@ -361,7 +360,7 @@
  
   max-width: calc((var(--item-width) * var(--max-cols))
                 + (var(--gap) * (var(--max-cols) - 1)));
-  overflow-x: hidden;
+
   /* build as many 300px cols as will fit, up to max-width above */
   column-width: var(--item-width);
   column-gap:   var(--gap);  
@@ -372,8 +371,6 @@
   width:           var(--item-width);
   margin-bottom:   var(--gap);
   break-inside:    avoid;
-  max-width: 100vw;
-  box-sizing: border-box;
 }
 
 .masonry-item img,
@@ -383,23 +380,52 @@
   display:     block;
   object-fit:  cover;
 }
+
 :root {
-  --item-width: 240px;
-  --gap:       15px;
+  --item-width: 600px;
+  --gap:       80px;
   --max-cols:  3;
 }
 
+@media screen and (max-width: 2256px) {
+:root {
+  --item-width: 500px;
+  --gap:       60px;
+  --max-cols:  3;
+}}
 
+@media screen and (max-width: 1880px) {
+:root {
+  --item-width: 500px;
+  --gap:       40px;
+  --max-cols:  2;
+}}
+
+@media screen and (max-width: 1250px) {
+:root {
+  --item-width: 400px;
+  --gap:       40px;
+  --max-cols:  2;
+}}
 
 @media screen and (max-width: 1020px) {
-    html, body {
-        overflow-x: hidden;
-        width: 100vw;
-        max-width: 100vw;
-        box-sizing: border-box;
-        overscroll-behavior-x: contain;
-    }
-.split {
+:root {
+  --item-width: 300px;
+  --gap:       20px;
+  --max-cols:  2;
+}}
+
+@media screen and (max-width: 700px) {
+
+        :root {
+  --item-width: 300px;
+  --gap:       10px;
+    --max-cols:  1;
+        }}  
+
+
+    @media screen and (max-width: 1020px) {
+        .split {
     flex-direction: column;
     align-items: stretch;
   }
@@ -418,28 +444,16 @@
     z-index: 10;
     scrollbar-color: #ccc #fff;
   }
-  .content-stream {
+.content-stream {
     margin-top: 0;
     padding-top: 0;
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-    overflow-x: hidden;
-  }
+}
 .project-filter-nav {
     padding: 0px 0px 0px 8px;
     gap: 0;}
-}
 
 
-    @media screen and (max-width: 1020px) {
-        :root {
-  --item-width: 250px;
-  --gap:       10px;
-  --max-cols:  2;
-}
-        
-        .content-stream {
+.content-stream {
             padding-top: 20px;
         }
         .project {
@@ -549,14 +563,8 @@
         padding: 2px 4px 4px 4px;
         margin: 0px 2px 0px 2px;
     }
-
-    @media screen and (max-width: 560px) {
-
-        :root {
-  --item-width: 250px;
-  --gap:       10px;
-    --max-cols:  1;
-        }}  }
+}
+ 
 
 .slide-chevron-zone {
   position: absolute;
