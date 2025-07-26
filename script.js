@@ -27,6 +27,7 @@ feather.replace()
 			slides[currentSlideIndex].classList.add("active");
 			// Show the first page
 			pages[currentPageIndex].classList.add("active");
+			
 			// Only activate button if it exists for this index and is not sticky
 			if (buttons[currentButtonIndex] && buttons[currentButtonIndex].id !== "sticky") {
 				buttons[currentButtonIndex].classList.add("active");
@@ -313,7 +314,28 @@ feather.replace()
 		const projects = document.querySelectorAll('.project');
 		let currentFilter = null;
 
-		// Scroll to first project of category
+		// Scrollspy: update active filter as you scroll
+		function updateActiveFilterOnScroll() {
+			// Find the project with the largest visible area in the viewport
+			let largestArea = 0;
+			let largestProject = null;
+			projects.forEach(project => {
+				const rect = project.getBoundingClientRect();
+				const visibleWidth = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+				const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+				const visibleArea = visibleWidth * visibleHeight;
+				if (visibleArea > largestArea) {
+					largestArea = visibleArea;
+					largestProject = project;
+				}
+			});
+			let activeCategory = largestProject ? largestProject.getAttribute('data-category') : null;
+			filterButtons.forEach(btn => {
+				btn.classList.toggle('active', btn.getAttribute('data-filter') === activeCategory);
+			});
+		}
+
+		// Scroll to first project of category on nav click
 		filterButtons.forEach(btn => {
 			btn.addEventListener('click', function () {
 				const filter = this.getAttribute('data-filter');
@@ -324,27 +346,11 @@ feather.replace()
 			});
 		});
 
-		// Scrollspy: update active filter as you scroll
-		function updateActiveFilterOnScroll() {
-			let found = false;
-			for (let i = 0; i < projects.length; i++) {
-				const rect = projects[i].getBoundingClientRect();
-				// Check if top of project is in the viewport (with a little offset)
-				if (rect.top < window.innerHeight * 0.33 && rect.bottom > window.innerHeight * 0.2) {
-					const cat = projects[i].getAttribute('data-category');
-					filterButtons.forEach(b => b.classList.toggle('active', b.getAttribute('data-filter') === cat));
-					found = true;
-					break;
-				}
-			}
-			// If no project is in view, remove all actives
-			if (!found) {
-				filterButtons.forEach(b => b.classList.remove('active'));
-			}
-		}
+		// Attach the scroll and resize event listeners
 		window.addEventListener('scroll', updateActiveFilterOnScroll, { passive: true });
 		window.addEventListener('resize', updateActiveFilterOnScroll);
-		// Set on load
+
+		// Call the function on page load to set the initial state
 		updateActiveFilterOnScroll();
 
 		// Utility: check if element is in viewport
@@ -485,4 +491,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // On scroll/resize, check for media in view to expedite
 window.addEventListener('scroll', checkAndExpediteMedia, { passive: true });
+window.addEventListener('resize', checkAndExpediteMedia);
 window.addEventListener('resize', checkAndExpediteMedia);
