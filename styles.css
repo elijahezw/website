@@ -17,17 +17,20 @@
         font-display: block;
     }
 
-    body {
+    html, body {
         background-color: #fff;
         font-family: GR;
         font-weight: 400;
         color: #000;
         overflow-x: hidden;
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     .hello {
         display: flex;
         flex-direction: row;
-		margin: 20px 20px 8px 0px;
+        margin: 20px 20px 8px 0px;
         font-size: 16px;
         font-weight: 700;
         color: #373737;
@@ -42,8 +45,10 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: start;
-    width: 100%;
+    width: 100vw;
+    max-width: 100vw;
     height: 100%;
+    box-sizing: border-box;
     }
 
     .goodbye {
@@ -57,7 +62,7 @@
     }
 
 
-	.project-filter-nav {
+    .project-filter-nav {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -71,34 +76,33 @@
     padding: 0px 0px 0px 8px;
 }
 
-	.filter-btn {
-		color: #9B9B9B;
-		background: none;
-		border: none;
-		font-family: GR;
-		font-weight: 400;
-		font-size: 16px;
-		padding: 2px 12px 8px 0px;
-		margin: 0 0px 0 0;
-		cursor: pointer;
-		box-shadow: none;
+    .filter-btn {
+        color: #9B9B9B;
+        background: none;
+        border: none;
+        font-family: GR;
+        font-weight: 400;
+        font-size: 16px;
+        padding: 2px 12px 8px 0px;
+        margin: 0 0px 0 0;
+        cursor: pointer;
+        box-shadow: none;
         white-space: nowrap;
-	}
-	
-	.filter-btn.active {
+    }
+    
+    .filter-btn.active {
     color: #373737;
     text-decoration: underline;
 }
-	
+    
     .content-stream {
         display: flex; 
         flex-direction: column;
         align-items: center;
         padding: 0 2vw 0 2vw;
-        max-width: 100%;
+        max-width: 100vw;
+        width: 100vw;
         box-sizing: border-box;
-        
-
     }
     .project {
         display: flex;
@@ -426,12 +430,12 @@
             padding-bottom: 10vh;
             padding-top: 0vh;
             padding-left: 10px;
-			justify-content: start;
+            justify-content: start;
         }
         .hello {
             justify-content: flex-start;
             height: 3vh;
-			margin: 20px 20px 8px 5px;
+            margin: 20px 20px 8px 5px;
         }
         .description {
             margin: 20px;
@@ -516,18 +520,18 @@
             width: 14px;
             padding: 3px 10px 4px 2px;
         }
-		.project-filter-nav {
+        .project-filter-nav {
     padding: 0px 0px 0px 2px;
     gap: 0;}
         
     .masonry { column-count: 2; }
 
-		.filter-btn {
-		font-weight: 400;
-		font-size: 14px;
-		padding: 2px 4px 4px 4px;
-		margin: 0px 2px 0px 2px;
-	}
+        .filter-btn {
+        font-weight: 400;
+        font-size: 14px;
+        padding: 2px 4px 4px 4px;
+        margin: 0px 2px 0px 2px;
+    }
 
     @media screen and (max-width: 560px) {
 
