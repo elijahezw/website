@@ -220,6 +220,8 @@
     }
     .slide {
         display: none;
+        width: 100%;
+  object-fit: cover;
         
     }
     .slide.active {

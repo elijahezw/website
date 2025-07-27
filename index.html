@@ -110,38 +110,38 @@ fabrication processes and their strengths.
 
 				<div class="stack">
 					<div class="slide horz" id="1">
-						<img src="assets/chair_01.jpg"loading="1">
+						<img src="assets/load_still.jpg" data-src="assets/chair_01.jpg" loading="1">
 					</div>
 					<div class="slide horz" id="2">
-						<img src="assets/chair_02.jpg"loading="1">
+						<img src="assets/load_still.jpg" data-src="assets/chair_02.jpg" loading="1">
 					</div>
 					<div class="slide horz" id="3">
-						<img src="assets/chair_03.jpg"loading="1">
+						<img src="assets/load_still.jpg" data-src="assets/chair_03.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="4">
-						<img src="assets/chair_04.jpg"loading="1">
+						<img src="assets/load_still.jpg" data-src="assets/chair_04.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="5">
-						<img src="assets/chair_05.jpg"loading="1">
+						<img src="assets/load_still.jpg" data-src="assets/chair_05.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="6">
 						
 						<video id="videoloop" poster="assets/chair_06.jpg" src="assets/compress_chair_06_resize.mp4" autoplay muted playsinline loop loading="2"></video>
 					</div>
 					<div class="slide horz" id="7">
-						<img src="assets/chair_07.jpg"loading="2">
+						<img src="assets/load_still.jpg" data-src="assets/chair_07.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="8">
-						<img src="assets/chair_08.jpg"loading="2">
+						<img src="assets/load_still.jpg" data-src="assets/chair_08.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="9">
-						<img src="assets/chair_09.jpg"loading="2">
+						<img src="assets/load_still.jpg" data-src="assets/chair_09.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="10">
-						<img src="assets/chair_095.jpg"loading="2">
+						<img src="assets/load_still.jpg" data-src="assets/chair_095.jpg" loading="2">
 					</div>
 					<div class="slide horz" id="11">
-						<img src="assets/chair_10.jpg"loading="2">
+						<img src="assets/load_still.jpg" data-src="assets/chair_10.jpg" loading="2">
 					</div>
 
 					<a href="https://drive.google.com/file/d/1mc0773159oPjGQ9Tib_44k_OwQk0LGoI/view?usp=sharing" target="_blank" class="custom-link">
@@ -1251,8 +1251,35 @@ The film premiered in July 2024 for the local community and was screened at film
 
 <script src="script.js"></script>	
 
-
-
+<!-- Add this script before </body> to swap placeholder with actual image -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	const imgs = document.querySelectorAll('img[data-src]');
+	const preloadImg = img => {
+		const src = img.getAttribute('data-src');
+		if (!src) return;
+		const tempImg = new Image();
+		tempImg.src = src;
+		tempImg.onload = () => {
+			img.src = src;
+		};
+	};
+	if ('IntersectionObserver' in window) {
+		let observer = new IntersectionObserver((entries, obs) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					preloadImg(entry.target);
+					obs.unobserve(entry.target);
+				}
+			});
+		});
+		imgs.forEach(img => observer.observe(img));
+	} else {
+		// fallback: just load all
+		imgs.forEach(preloadImg);
+	}
+});
+</script>
 </body>
 </html>
 
