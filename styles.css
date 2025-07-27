@@ -633,4 +633,30 @@
         margin: 0px 2px 0px 2px;
     }
 }
- 
+
+/* Loading overlay styles */
+.media-loading-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.8);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.media-loading-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  opacity: 0.7;
+}
+
+/* For parent positioning */
+.media-loading-parent {
+  position: relative;
+  display: inline-block;
+}
+

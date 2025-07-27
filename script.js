@@ -429,6 +429,52 @@ let queuePaused = false;
 let currentLoading = null;
 let currentPriority = 1;
 
+// Path to your loading image (change as needed)
+const LOADING_IMAGE_SRC = '/loading.gif';
+
+// Utility to wrap media with parent and overlay
+function setupMediaLoadingOverlay(media) {
+  // Only if not already wrapped
+  if (media.parentElement && media.parentElement.classList.contains('media-loading-parent')) return;
+
+  // Create parent wrapper
+  const parent = document.createElement('div');
+  parent.className = 'media-loading-parent';
+  parent.style.width = media.width ? media.width + 'px' : '';
+  parent.style.height = media.height ? media.height + 'px' : '';
+  media.parentNode.insertBefore(parent, media);
+  parent.appendChild(media);
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'media-loading-overlay';
+  const img = document.createElement('img');
+  img.className = 'media-loading-img';
+  img.src = LOADING_IMAGE_SRC;
+  overlay.appendChild(img);
+  parent.appendChild(overlay);
+
+  // Hide overlay when loaded
+  function hideOverlay() {
+    overlay.style.display = 'none';
+  }
+  if (media.tagName === 'IMG') {
+    if (media.complete && media.naturalWidth !== 0) {
+      hideOverlay();
+    } else {
+      media.addEventListener('load', hideOverlay);
+      media.addEventListener('error', hideOverlay);
+    }
+  } else if (media.tagName === 'VIDEO') {
+    if (media.readyState > 0) {
+      hideOverlay();
+    } else {
+      media.addEventListener('loadeddata', hideOverlay);
+      media.addEventListener('error', hideOverlay);
+    }
+  }
+}
+
 // Collect all images/videos in DOM order by priority
 function collectMediaQueue(priorityLevel = 1) {
 	mediaQueue = [];
@@ -438,6 +484,8 @@ function collectMediaQueue(priorityLevel = 1) {
 	const allMedia = imgs.concat(vids);
 	allMedia.sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
 	mediaQueue = allMedia.filter(m => !m.hasAttribute('data-prioritized') && !m.hasAttribute('data-loaded'));
+	// Setup overlays for any new media
+	allMedia.forEach(setupMediaLoadingOverlay);
 }
 
 // Load next media in queue, advance priority when done
