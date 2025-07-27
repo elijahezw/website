@@ -187,7 +187,7 @@ feather.replace()
 
 //BUTTON1
 		var button1 = document.getElementById("button1-1");
-		var video1 = document.getElementById("video1");
+		var video1 = document.getElementById("video1-1");
 
 		// Add click event listeners to the buttons
 		button1.addEventListener("click", function () {
@@ -207,7 +207,7 @@ feather.replace()
 
 		//BUTTON2
 		var button2 = document.getElementById("button1-2");
-		var video2 = document.getElementById("video2");
+		var video2 = document.getElementById("video1-2");
 
 		// Add click event listeners to the buttons
 		button2.addEventListener("click", function () {
@@ -228,7 +228,7 @@ feather.replace()
 
 		//BUTTON3
 		var button3 = document.getElementById("button1-3");
-		var video3 = document.getElementById("video3");
+		var video3 = document.getElementById("video1-3");
 
 		// Add click event listeners to the buttons
 		button3.addEventListener("click", function () {
@@ -270,7 +270,7 @@ feather.replace()
 
 
 		var button4 = document.getElementById("button8-4");
-		var video4 = document.getElementById("video4");
+		var video4 = document.getElementById("video8-4");
 
 		// Add click event listeners to the buttons
 		button4.addEventListener("click", function () {
@@ -285,6 +285,63 @@ feather.replace()
 
 		video4.addEventListener('ended', () => {
 			button4.classList.remove('hidden');
+			// Perform desired actions here
+		});
+
+		var button5 = document.getElementById("button8-5");
+		var video5 = document.getElementById("video8-5");
+
+		// Add click event listeners to the buttons
+		button5.addEventListener("click", function () {
+			// Play video3
+			video5.currentTime = 0;
+			video5.play();
+		});
+
+		video5.addEventListener('play', () => {
+			button5.classList.add('hidden');
+		});
+
+		video5.addEventListener('ended', () => {
+			button5.classList.remove('hidden');
+			// Perform desired actions here
+		});
+
+		var button6 = document.getElementById("button6-1");
+		var video6 = document.getElementById("video6-1");
+
+		// Add click event listeners to the buttons
+		button6.addEventListener("click", function () {
+			// Play video3
+			video6.currentTime = 0;
+			video6.play();
+		});
+
+		video6.addEventListener('play', () => {
+			button6.classList.add('hidden');
+		});
+
+		video6.addEventListener('ended', () => {
+			button6.classList.remove('hidden');
+			// Perform desired actions here
+		});
+
+		var button7 = document.getElementById("button7-1");
+		var video7 = document.getElementById("video7-1");
+
+		// Add click event listeners to the buttons
+		button7.addEventListener("click", function () {
+			// Play video3
+			video7.currentTime = 0;
+			video7.play();
+		});
+
+		video7.addEventListener('play', () => {
+			button7.classList.add('hidden');
+		});
+
+		video7.addEventListener('ended', () => {
+			button7.classList.remove('hidden');
 			// Perform desired actions here
 		});
 
@@ -308,6 +365,8 @@ feather.replace()
 		initSlideshow("project16");
 		initSlideshow("project17");
 		initSlideshow("project18");
+		initSlideshow("project19");
+		
 
 		// Project tab navigation and scrollspy
 		const filterButtons = document.querySelectorAll('.filter-btn');
