@@ -471,6 +471,9 @@
     flex-direction: column;
     align-items: stretch;
   }
+  .body{margin: 0;
+        padding: 0;}
+        
   .project-filter-nav {
     position: sticky;
     top: 8px;
