@@ -430,7 +430,7 @@ let currentLoading = null;
 let currentPriority = 1;
 
 // Path to your loading image (change as needed)
-const LOADING_IMAGE_SRC = '/loading.gif';
+const LOADING_IMAGE_SRC = 'assets/load_still.jpg';
 
 // Utility to wrap media with parent and overlay
 function setupMediaLoadingOverlay(media) {
