@@ -15,10 +15,72 @@
 	<link rel="preload" href="fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="assets/load_still.jpg" as="image">
 
 	<!-- Styles and Scripts -->
 	<link rel="stylesheet" href="styles.css" />
 	<script src="https://unpkg.com/feather-icons"></script>
+	<style>
+		.img-wrapper {
+			position: relative;
+			display: inline-block;
+		}
+
+		.img-loading {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #fff;
+			z-index: 2;
+		}
+
+		.img-loading img {
+			width: 32px;
+			height: 32px;
+			opacity: 0.7;
+		}
+
+		.img-wrapper img {
+			display: block;
+		}
+
+		#pageloading {
+			position: fixed;
+			z-index: 9999;
+			inset: 0;
+			background: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: opacity 0.3s;
+		}
+
+		#pageloading .spinner {
+			width: 48px;
+			height: 48px;
+			border: 5px solid #eee;
+			border-top: 5px solid #222;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+		}
+
+		@keyframes spin {
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		#pageloading.hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
+	</style>
+
 
 	<!-- Open Graph (Facebook, iMessage, Discord, etc.) -->
 	<meta property="og:title" content="Portfolio" />
@@ -30,6 +92,15 @@
 
 
 <body>
+
+	<div id="pageloading">
+		<div>
+			<div class="spinner"></div>
+			<div style="margin-top:16px;text-align:center;font-family:sans-serif;font-size:1.1em;color:#222;">Loading...
+			</div>
+		</div>
+	</div>
+
 	<!-- Add the link and arrow icon to the HTML -->
 	<div class="hello">
 		<img src="assets/gifs/loading.gif" alt="ekstatisk" style="margin: 0 0 0 5px;" />
@@ -110,38 +181,88 @@ fabrication processes and their strengths.
 
 				<div class="stack">
 					<div class="slide horz" id="1">
-						<img src="assets/load_still.jpg" data-src="assets/chair_01.jpg" loading="1">
+						<div class="img-wrapper">
+							<div class="img-loading">
+							<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_01.jpg" loading="1">
+						</div>
 					</div>
 					<div class="slide horz" id="2">
-						<img src="assets/load_still.jpg" data-src="assets/chair_02.jpg" loading="1">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_02.jpg" loading="1">
+						</div>
 					</div>
 					<div class="slide horz" id="3">
-						<img src="assets/load_still.jpg" data-src="assets/chair_03.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_03.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="4">
-						<img src="assets/load_still.jpg" data-src="assets/chair_04.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_04.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="5">
-						<img src="assets/load_still.jpg" data-src="assets/chair_05.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_05.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="6">
 						
 						<video id="videoloop" poster="assets/chair_06.jpg" src="assets/compress_chair_06_resize.mp4" autoplay muted playsinline loop loading="2"></video>
 					</div>
 					<div class="slide horz" id="7">
-						<img src="assets/load_still.jpg" data-src="assets/chair_07.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_07.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="8">
-						<img src="assets/load_still.jpg" data-src="assets/chair_08.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_08.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="9">
-						<img src="assets/load_still.jpg" data-src="assets/chair_09.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_09.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="10">
-						<img src="assets/load_still.jpg" data-src="assets/chair_095.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_095.jpg" loading="2">
+						</div>
 					</div>
 					<div class="slide horz" id="11">
-						<img src="assets/load_still.jpg" data-src="assets/chair_10.jpg" loading="2">
+						<div class="img-wrapper">
+							<div class="img-loading">
+								<img src="assets/load_still.jpg" />
+							</div>
+							<img src="assets/chair_10.jpg" loading="2">
+						</div>
 					</div>
 
 					<a href="https://drive.google.com/file/d/1mc0773159oPjGQ9Tib_44k_OwQk0LGoI/view?usp=sharing" target="_blank" class="custom-link">
@@ -1249,7 +1370,40 @@ The film premiered in July 2024 for the local community and was screened at film
 	</div>
 	
 
-<script src="script.js"></script>	
+<script src="script.js"></script>
+<script>
+	// Remove loading spinner when image is loaded
+	document.querySelectorAll('.img-wrapper img:not([src*="loading.gif"])').forEach(function(img) {
+		if (img.complete) {
+			img.previousElementSibling && img.previousElementSibling.remove();
+		} else {
+			img.addEventListener('load', function() {
+				img.previousElementSibling && img.previousElementSibling.remove();
+			});
+			img.addEventListener('error', function() {
+				img.previousElementSibling && img.previousElementSibling.remove();
+			});
+		}
+	});
+
+	// Hide page loading overlay when chair_01.jpg is loaded
+	const chairImg = document.querySelector('img[src="assets/chair_01.jpg"]');
+	const hidePageLoading = function() {
+		const pageloading = document.getElementById('pageloading');
+		if (pageloading) {
+			pageloading.classList.add('hidden');
+			setTimeout(() => pageloading.style.display = 'none', 400);
+		}
+	};
+	if (chairImg) {
+		if (chairImg.complete) {
+			hidePageLoading();
+		} else {
+			chairImg.addEventListener('load', hidePageLoading);
+			chairImg.addEventListener('error', hidePageLoading);
+		}
+	}
+</script>	
 
 <!-- Add this script before </body> to swap placeholder with actual image -->
 </body>
