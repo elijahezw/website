@@ -45,10 +45,6 @@
 			opacity: 0.7;
 		}
 
-		.img-wrapper img {
-			display: block;
-		}
-
 		#pageloading {
 			position: fixed;
 			z-index: 9999;
@@ -67,12 +63,6 @@
 			border-top: 5px solid #222;
 			border-radius: 50%;
 			animation: spin 1s linear infinite;
-		}
-
-		@keyframes spin {
-			100% {
-				transform: rotate(360deg);
-			}
 		}
 
 		#pageloading.hidden {
@@ -181,9 +171,9 @@ fabrication processes and their strengths.
 					<div class="slide horz" id="1">
 						<div class="img-wrapper">
 							<div class="img-loading">
-							<img src="assets/load_still.jpg" loading="eager" />
+							<img src="assets/load_still.jpg" loading="1" />
 							</div>
-							<img src="assets/chair_01.jpg" loading="eager">
+							<img src="assets/chair_01.jpg" loading="1">
 						</div>
 					</div>
 					<div class="slide horz" id="2">
@@ -1380,7 +1370,7 @@ The film premiered in July 2024 for the local community and was screened at film
 		}
 	};
 	preloadImg.onerror = preloadImg.onload;
-	preloadImg.src = "assets/load_still.jpg";
+	preloadImg.src = "assets/chair_01.jpg";
 </script>
 <script>
 	// Remove loading spinner when image is loaded
