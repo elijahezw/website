@@ -1372,6 +1372,19 @@ The film premiered in July 2024 for the local community and was screened at film
 
 <script src="script.js"></script>
 <script>
+	// Hide page loading overlay when load_still.jpg is preloaded
+	var preloadImg = new Image();
+	preloadImg.onload = function() {
+		const pageloading = document.getElementById('pageloading');
+		if (pageloading) {
+			pageloading.classList.add('hidden');
+			setTimeout(() => pageloading.style.display = 'none', 400);
+		}
+	};
+	preloadImg.onerror = preloadImg.onload;
+	preloadImg.src = "assets/load_still.jpg";
+</script>
+<script>
 	// Remove loading spinner when image is loaded
 	document.querySelectorAll('.img-wrapper img:not([src*="loading.gif"])').forEach(function(img) {
 		if (img.complete) {
@@ -1385,24 +1398,6 @@ The film premiered in July 2024 for the local community and was screened at film
 			});
 		}
 	});
-
-	// Hide page loading overlay when chair_01.jpg is loaded
-	const chairImg = document.querySelector('img[src="assets/chair_01.jpg"]');
-	const hidePageLoading = function() {
-		const pageloading = document.getElementById('pageloading');
-		if (pageloading) {
-			pageloading.classList.add('hidden');
-			setTimeout(() => pageloading.style.display = 'none', 400);
-		}
-	};
-	if (chairImg) {
-		if (chairImg.complete) {
-			hidePageLoading();
-		} else {
-			chairImg.addEventListener('load', hidePageLoading);
-			chairImg.addEventListener('error', hidePageLoading);
-		}
-	}
 </script>	
 
 <!-- Add this script before </body> to swap placeholder with actual image -->
