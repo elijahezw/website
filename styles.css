@@ -20,8 +20,18 @@
 
     html{
         overscroll-behavior-x: none;
-
+        transition: opacity 0.3s;
     }
+
+    html.hold {
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s;
+    background-color: green;
+}
+
+
+
     body {
         margin: 0;
         padding: 0;
@@ -672,11 +682,3 @@ aspect-ratio: 1000/600;
         margin: 0px 2px 0px 2px;
     }
 }
-
-/* Example usage: */
-.some-class {
-    background-image: url('load/load_still.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
