@@ -12,11 +12,11 @@
 	<link rel="apple-touch-icon" href="https://elijahezw.com/assets/gifs/ico.jpg">
 
 	<!-- Preload -->
-	<link rel="preload" href="fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="load/load_still.jpg" as="image" type="image/jpeg" crossorigin>
-	<link rel="preload" href="load/load_still_vert.jpg" as="image" type="image/jpeg" crossorigin>
+	<link rel="preload" href="fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" >
+	<link rel="preload" href="fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" >
+	<link rel="preload" href="fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" >
+	<link rel="preload" href="load/load_still.jpg" as="image" type="image/jpeg" >
+	<link rel="preload" href="load/load_still_vert.jpg" as="image" type="image/jpeg" >
 
 	<!-- Styles and Scripts -->
 	<link rel="stylesheet" href="styles.css" />
@@ -64,6 +64,8 @@
 
 
 <body>
+	<div id="loading-overlay">
+	</div>
 	<!-- Add the link and arrow icon to the HTML -->
 	<div class="hello">
 		<img src="assets/gifs/loading.gif" alt="ekstatisk" style="margin: 0 0 0 5px;" />
@@ -765,7 +767,7 @@ I presented for the company around Norway, featured at Oslo Climate Tech Summit 
 
 					<div class="slide vert" style="aspect-ratio: 878/1616;" id="1">
 
-						<video id="video4-1" poster="assets/sine-wave-load.png" src="assets/compress_sine.mp4" autoplay muted playsinline loading="2"></video>
+						<video id="video4-1" style="aspect-ratio: 878/1616;" poster="assets/sine-wave-load.png" src="assets/compress_sine.mp4" autoplay muted playsinline loading="2"></video>
 					</div>
 
 
