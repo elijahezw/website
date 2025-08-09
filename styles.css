@@ -17,6 +17,7 @@
         font-display: block;
     }
 
+
     html{
         overscroll-behavior-x: none;
 
@@ -190,8 +191,6 @@
         padding: 2px 0 48px 0;
     }
     
-
-
     .page.active {
         display: block;
     }
@@ -220,15 +219,59 @@
     }
     .slide {
         display: none;
-        width: 100%;
-  object-fit: cover;
-        
+  
     }
     .slide.active {
         display: block;
-        align-self: center;
         margin-bottom: 24px;
-        position: relative;
+
+    }
+   
+    .slide.horz {
+        min-width: 60vw;
+        background-image: url('load/load_still.jpg');
+        background-size: cover;       /* fill entire div, maintain aspect ratio */
+        background-repeat: no-repeat;
+        background-position: center;
+        aspect-ratio: 1000 / 600; /* maintain aspect ratio */
+        
+    }
+
+    .slide.horz video {
+        max-width: 60vw;
+         display: block;  
+                 
+    }
+
+    .slide.horz.ui video{
+    max-width: 60vw;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    border-radius: 1vw;
+     display: block;  
+}
+
+.slide.horz.ui img{
+    max-width: 60vw;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    border-radius: 1vw;
+     display: block;  
+}
+
+ .slide.horz img {
+        max-width: 60vw;
+        border-radius: 0;
+                  /* prevents distortion */
+        display: block;
+        z-index: 1000;
+    }
+
+    .slide.vert {
+        max-height: 70vh;
+        background-image: url('load/load_still_vert.jpg');
+        background-size: cover;       /* fill entire div, maintain aspect ratio */
+        background-repeat: no-repeat;
+        background-position: center;
+        aspect-ratio: 780 / 1692; /* maintain aspect ratio */
     }
   
     .slide.vert video {
@@ -236,24 +279,9 @@
         border-radius: 30px;
         box-shadow: 0 4px 24px rgba(0,0,0,0.12);
         min-height: 400px;
+        aspect-ratio: 780 / 1692;
     }
 
-    .slide.horz video {
-        max-width: 60vw;
-        border-radius: 0;
-    }
-
-    .slide.horz_ui video{
-    max-width: 60vw;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    border-radius: 1vw;
-}
-
-.slide.horz_ui img{
-    max-width: 60vw;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    border-radius: 1vw;
-}
 
     .slide.vert img {
         max-height: 70vh;
@@ -267,11 +295,7 @@
         object-fit: contain;
         box-shadow: 0 0px 0px rgba(0,0,0,0);
 
-    }
-    .slide.horz img {
-        max-width: 60vw;
-       
-        border-radius: 0;
+
     }
     .project-link {
         position: fixed;
@@ -428,6 +452,7 @@
   width:           var(--item-width);
   margin-bottom:   var(--gap);
   break-inside:    avoid;
+
 }
 
 .masonry-item img,
@@ -436,6 +461,11 @@
   height:      auto;
   display:     block;
   object-fit:  cover;
+    background-image: url('load/load_still.jpg');
+    background-size: cover;       /* fill entire div, maintain aspect ratio */
+    background-repeat: no-repeat;
+    background-position: center;
+aspect-ratio: 1000/600;
 }
 
 :root {
@@ -579,7 +609,14 @@
         }
         .slide.active {
             margin-bottom: 20px;
+            
         }
+
+        .slide.horz{
+            min-width: 90vw;
+        }
+
+
         .slide.horz img {
             max-width: 90vw;
             min-width: none;
@@ -588,12 +625,12 @@
             max-width: 90vw;
         }
 
-        .slide.horz_ui video{
+        .slide.horz.ui video{
     max-width: 90vw;
     border-radius: 2vw;
 }
 
-.slide.horz_ui img{
+.slide.horz.ui img{
     max-width: 90vw;
     box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     border-radius: 2vw;
