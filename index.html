@@ -16,6 +16,7 @@
 	<link rel="preload" href="fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="load/load_still.jpg" as="image" type="image/jpeg" crossorigin>
+	<link rel="preload" href="load/load_still_vert.jpg" as="image" type="image/jpeg" crossorigin>
 
 	<!-- Styles and Scripts -->
 	<link rel="stylesheet" href="styles.css" />
@@ -27,6 +28,38 @@
 	<meta property="og:image" content="https://elijahezw.com/assets/chair_01.jpg" />
 	<meta property="og:url" content="https://elijahezw.com" />
 	<meta property="og:type" content="website" />
+
+	  <script>
+    // Assets to wait for
+    const preloadAssets = [
+      'fonts/LabGrotesque-Bold.woff2',
+      'fonts/LabGrotesque-Regular.woff2',
+      'fonts/LabGrotesque-Light.woff2',
+      'load/load_still.jpg',
+      'load/load_still_vert.jpg'
+    ];
+
+    // Load fonts
+    const fontPromises = [
+      document.fonts.load('1em LabGrotesque-Bold'),
+      document.fonts.load('1em LabGrotesque-Regular'),
+      document.fonts.load('1em LabGrotesque-Light')
+    ];
+
+    // Load & decode images
+    const imagePromises = preloadAssets
+      .filter(src => src.endsWith('.jpg'))
+      .map(src => {
+        const img = new Image();
+        img.src = src;
+        return (img.decode ? img.decode() : new Promise(r => { img.onload = r; img.onerror = r; }));
+      });
+
+    // Wait for everything
+    Promise.all([...fontPromises, ...imagePromises])
+      .finally(() => document.documentElement.classList.remove('hold'));
+  </script>
+
 </head>
 
 
