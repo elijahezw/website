@@ -77,11 +77,7 @@ html:not(.hold) #loading-overlay {
     .hello {
         display: flex;
         flex-direction: row;
-        margin: 20px 20px 8px 0px;
-        margin-left: 12px;
-        font-size: 16px;
-        font-weight: 700;
-        color: #373737;
+        margin: 20px 20px 8px 18px;
         justify-content: flex-start;
         height: 4vh;
         z-index: 1001; /* Increase above filter nav */
@@ -134,7 +130,6 @@ html:not(.hold) #loading-overlay {
         font-weight: 400;
         font-size: 16px;
         padding: 2px 12px 8px 0px;
-        margin: 0 0px 0 0;
         cursor: pointer;
         box-shadow: none;
         white-space: nowrap;
@@ -148,9 +143,9 @@ html:not(.hold) #loading-overlay {
     .content-stream {
         display: flex; 
         flex-direction: column;
-        align-items: center;
+        align-items: left;
         padding: 0 2vw 0 2vw;
-         width: 100%; /* Use 100% instead of 100vw */
+        width: 100%; /* Use 100% instead of 100vw */
     max-width: 100%; /* Prevent overflow */
     box-sizing: border-box;
     }
@@ -166,7 +161,6 @@ html:not(.hold) #loading-overlay {
         font-weight: 400;
         padding-bottom: 10vh;
         padding-top: 10vh;
-        padding-left: 0;
         box-sizing: border-box;
      
     }
@@ -545,17 +539,28 @@ aspect-ratio: 1000/600;
   --item-width: 300px;
   --gap:       10px;
     --max-cols:  1;
-        }}  
+        }
+
+
+    
+    
+    }
+        
+        
+
 
 
 @media screen and (max-width: 1020px) {
         
-        .split {
+    .split {
     flex-direction: column;
     align-items: stretch;
+    
+
   } 
 
   .project-filter-nav {
+    padding-left: 5vw; 
     position: sticky;
     top: 8px;
     width: 100vw;
@@ -569,14 +574,23 @@ aspect-ratio: 1000/600;
     box-shadow: 0px -8px 0px 0px #fff, 0px 6px 0px 0px #fff ;
     z-index: 10;
     scrollbar-color: #ccc #fff;
+    gap: 0;   
+    
   }
+
+    .filter-btn {
+        font-weight: 400;
+        font-size: 14px;
+        padding: 2px 10px 4px 0px;
+        margin: 0px 2px 0px 2px;
+    }
+
 .content-stream {
     margin-top: 0;
     padding-top: 0;
 }
-.project-filter-nav {
-    padding: 0px 0px 0px 8px;
-    gap: 0;}
+
+    
 
 
 .content-stream {
@@ -590,15 +604,16 @@ aspect-ratio: 1000/600;
             justify-content: start;
         }
         .hello {
-            justify-content: flex-start;
-            height: 3vh;
-            margin: 20px 20px 8px 5px;
+        justify-content: flex-start;
+        margin: 20px 0px 8px 0px;
+        height: 20px;
+        padding-left: 5vw;
             
         }
+        
         .description {
             margin: 20px;
             order: 2;
-            width: 80vw;
             text-align: left;
             min-width: 200px;
             max-width: 300px;
@@ -696,16 +711,9 @@ aspect-ratio: 1000/600;
             width: 14px;
             padding: 3px 10px 4px 2px;
         }
-        .project-filter-nav {
-    padding: 0px 0px 0px 5px;
-    gap: 0;}
+    
         
     .masonry { column-count: 2; }
 
-        .filter-btn {
-        font-weight: 400;
-        font-size: 14px;
-        padding: 2px 4px 4px 4px;
-        margin: 0px 2px 0px 2px;
-    }
+      
 }
